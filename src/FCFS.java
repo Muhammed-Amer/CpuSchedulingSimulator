@@ -12,7 +12,6 @@ public class FCFS {
         noOfProcesses = 0;
         totalWaitingTime = 0;
         averageWaitingTime = 0;
-
         totalTurnAroundTime = 0;
         averageTurnAroundTime = 0;
     }
@@ -26,9 +25,8 @@ public class FCFS {
     }
 
     public void executeFCFS(ReadyQueue readyQueue) {
-        int currentTime = 0;
-
-        gui.appendOutput("Executing SJF Algorithm:");
+        int currentTime = 0; // timeline
+        gui.appendOutput("Executing FCFS Algorithm:");
 
         while (!readyQueue.isEmpty()) {
             Process process = readyQueue.getFirstProcess();
@@ -36,10 +34,9 @@ public class FCFS {
             gui.appendOutput("Executing Process: " + process);
 
             noOfProcesses++;
+
             totalWaitingTime += currentTime;
-
             currentTime += process.getCpuTime();
-
             totalTurnAroundTime += currentTime;
 
             process.setProcessState(Process.ProcessState.TERMINATED);
@@ -51,6 +48,9 @@ public class FCFS {
 
         averageWaitingTime = (double) totalWaitingTime / noOfProcesses;
         averageTurnAroundTime = (double) totalTurnAroundTime / noOfProcesses;
+
         gui.appendOutput("Average waiting Time: " + this.getAverageWaitingTime());
+        gui.appendOutput("Average Turnaround Time: " + this.getAverageTurnAroundTime());
     }
+
 }

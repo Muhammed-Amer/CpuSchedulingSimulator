@@ -33,7 +33,7 @@ public class SchedulingGUI extends JFrame {
         inputPanel.add(addProcessButton);
 
         // Buttons for Algorithms
-        JButton fcfsButton = new JButton("Run SJF");
+        JButton fcfsButton = new JButton("Run FCFS");
         fcfsButton.addActionListener(this::runFCFS);
 
         JButton sjfButton = new JButton("Run SJF");
@@ -103,7 +103,7 @@ public class SchedulingGUI extends JFrame {
         String averageMessage = "Average Waiting Time: " + sjf.getAverageWaitingTime() + "\n" +
                 "Average Turnaround Time: " + sjf.getAverageTurnAroundTime();
         JOptionPane.showMessageDialog(null, averageMessage,  "Average", JOptionPane.INFORMATION_MESSAGE);
-        outputArea.setText("");
+        outputArea.append("---------------");
     }
 
     private void runRR() {

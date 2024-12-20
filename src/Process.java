@@ -1,24 +1,20 @@
 public class Process {
     private int processId;
-    private int cpuTime; // Remaining CPU time
-    private int originalCpuTime; // Total CPU time required by the process
+    private int cpuTime;
+    private final int originalCpuTime;
     private int processPriority;
     private ProcessState processState;
-    private int arrivalTime; // The time the process arrives in the queue
-    private int completionTime; // The time when the process finishes
-    private int lastExecutionTime; // The last time the process was executed
-    private int waitingTime; // Accumulated waiting time
+    private int arrivalTime;
+    private int completionTime;
 
     public Process(int processId, int cpuTime, int processPriority, int arrivalTime, ProcessState processState) {
         this.processId = processId;
         this.cpuTime = cpuTime;
-        this.originalCpuTime = cpuTime; // Store the original CPU time
+        this.originalCpuTime = cpuTime;
         this.processPriority = processPriority;
         this.arrivalTime = arrivalTime;
         this.processState = processState;
         this.completionTime = 0;
-        this.lastExecutionTime = 0; // Initialize to 0
-        this.waitingTime = 0; // Initialize to 0
     }
 
     public int getProcessId() {
@@ -83,16 +79,11 @@ public class Process {
         return "Process{" +
                 "processId=" + processId +
                 ", cpuTime=" + cpuTime +
-                ", originalCpuTime=" + originalCpuTime +
                 ", priority=" + processPriority +
                 ", state=" + processState +
-                ", arrivalTime=" + arrivalTime +
-                ", waitingTime=" + waitingTime +
-                ", completionTime=" + completionTime +
                 '}';
     }
 
-    // Process state enum
     public enum ProcessState {
         READY,
         RUNNING,

@@ -40,8 +40,8 @@ public class RR {
                 process.setProcessState(Process.ProcessState.TERMINATED);
                 gui.appendOutput("Process " + process.getProcessId() + " completed at time " + currentTime);
 
-                int turnaroundTime = process.getCompletionTime(); // turnaround Time = tompletion Time
-                int waitingTime = turnaroundTime - process.getOriginalCpuTime(); // waiting Time = turnaround time - burst Time
+                int turnaroundTime = process.getCompletionTime();
+                int waitingTime = turnaroundTime - process.getOriginalCpuTime();
 
                 totalTurnAroundTime += turnaroundTime;
                 totalWaitingTime += waitingTime;

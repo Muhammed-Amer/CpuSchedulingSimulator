@@ -40,7 +40,6 @@ public class SJF {
 
             noOfProcesses++;
             totalWaitingTime += currentTime;
-
             currentTime += process.getCpuTime();
 
             totalTurnAroundTime += currentTime;
