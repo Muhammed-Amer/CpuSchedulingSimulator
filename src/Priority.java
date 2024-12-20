@@ -1,11 +1,30 @@
-import java.util.Collections;
 import java.util.Comparator;
 
 public class Priority {
-    private SchedulingGUI gui;
+    int noOfProcesses;
+    int totalWaitingTime;
+    double averageWaitingTime;
+
+    int totalTurnAroundTime;
+    double averageTurnAroundTime;
+    final private SchedulingGUI gui;
 
     public Priority(SchedulingGUI gui) {
         this.gui = gui;
+        noOfProcesses = 0;
+        totalWaitingTime = 0;
+        averageWaitingTime = 0;
+
+        totalTurnAroundTime = 0;
+        averageTurnAroundTime = 0;
+    }
+
+    double getAverageWaitingTime() {
+        return averageWaitingTime;
+    }
+
+    double getAverageTurnAroundTime() {
+        return averageTurnAroundTime;
     }
 
     public void executePriority(ReadyQueue readyQueue) {
@@ -18,10 +37,21 @@ public class Priority {
             process.setProcessState(Process.ProcessState.RUNNING);
             gui.appendOutput("Executing Process: " + process);
 
+            noOfProcesses++;
+            totalWaitingTime += currentTime;
+
             currentTime += process.getCpuTime();
-            gui.appendOutput("Process " + process.getProcessId() + " completed at time " + currentTime);
+
+            totalTurnAroundTime += currentTime;
 
             process.setProcessState(Process.ProcessState.TERMINATED);
+            gui.appendOutput("Process " + process.getProcessId() + " completed at time " + currentTime);
         }
+
+        averageWaitingTime = (double) totalWaitingTime / noOfProcesses;
+        averageTurnAroundTime = (double) totalTurnAroundTime / noOfProcesses;
+
+        gui.appendOutput("Average Waiting Time: " + this.getAverageWaitingTime());
+        gui.appendOutput("Average Turnaround Time: " + this.getAverageTurnAroundTime());
     }
 }

@@ -28,7 +28,9 @@ public class ReadyQueue {
             processes.addLast(firstProcess);
         }
     }
-
+    int size() {
+        return processes.size();
+    }
     public void printQueue() {
         for (Process process : processes) {
             System.out.println("Process ID: " + process.getProcessId() +

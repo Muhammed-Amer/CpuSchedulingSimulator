@@ -16,7 +16,6 @@ public class SchedulingGUI extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(outputArea);
 
-        // Input Fields
         processIdField = new JTextField(5);
         priorityField = new JTextField(5);
         cpuTimeField = new JTextField(5);
@@ -27,14 +26,14 @@ public class SchedulingGUI extends JFrame {
         JPanel inputPanel = new JPanel();
         inputPanel.add(new JLabel("Process ID:"));
         inputPanel.add(processIdField);
-        inputPanel.add(new JLabel("Priority:"));
-        inputPanel.add(priorityField);
         inputPanel.add(new JLabel("CPU Time:"));
         inputPanel.add(cpuTimeField);
+        inputPanel.add(new JLabel("Priority:"));
+        inputPanel.add(priorityField);
         inputPanel.add(addProcessButton);
 
         // Buttons for Algorithms
-        JButton fcfsButton = new JButton("Run FCFS");
+        JButton fcfsButton = new JButton("Run SJF");
         fcfsButton.addActionListener(this::runFCFS);
 
         JButton sjfButton = new JButton("Run SJF");
@@ -52,7 +51,6 @@ public class SchedulingGUI extends JFrame {
         buttonPanel.add(rrButton);
         buttonPanel.add(priorityButton);
 
-        // Layout
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(inputPanel, BorderLayout.NORTH);
@@ -64,6 +62,7 @@ public class SchedulingGUI extends JFrame {
         setTitle("CPU Scheduling Algorithms");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -72,8 +71,7 @@ public class SchedulingGUI extends JFrame {
             int processId = Integer.parseInt(processIdField.getText());
             int priority = Integer.parseInt(priorityField.getText());
             int cpuTime = Integer.parseInt(cpuTimeField.getText());
-
-            Process newProcess = new Process(processId, priority, cpuTime, Process.ProcessState.READY);
+            Process newProcess = new Process(processId, cpuTime, priority, 0, Process.ProcessState.READY);
             readyQueue.addProcess(newProcess);
 
             outputArea.append("Added Process: " + newProcess + "\n");
@@ -90,31 +88,51 @@ public class SchedulingGUI extends JFrame {
     }
 
     private void runFCFS(ActionEvent e) {
-        FCFS fcfs = new FCFS(this); // Pass the GUI instance
-        outputArea.setText(""); // Clear previous output
+        FCFS fcfs = new FCFS(this);
         fcfs.executeFCFS(readyQueue);
+        String averageMessage = "Average Waiting Time: " + fcfs.getAverageWaitingTime() + "\n" +
+                "Average Turnaround Time: " + fcfs.getAverageTurnAroundTime();
+        JOptionPane.showMessageDialog(null, averageMessage,  "Average", JOptionPane.INFORMATION_MESSAGE);
+        outputArea.setText("");
     }
 
     private void runSJF(ActionEvent e) {
-        SJF sjf = new SJF(this); // Pass the GUI instance
-        outputArea.setText(""); // Clear previous output
+        SJF sjf = new SJF(this);
         sjf.executeSJF(readyQueue);
+
+        String averageMessage = "Average Waiting Time: " + sjf.getAverageWaitingTime() + "\n" +
+                "Average Turnaround Time: " + sjf.getAverageTurnAroundTime();
+        JOptionPane.showMessageDialog(null, averageMessage,  "Average", JOptionPane.INFORMATION_MESSAGE);
+        outputArea.setText("");
     }
 
     private void runRR() {
-        int timeQuantum = 4; // Example time quantum
-        RR rr = new RR(this, timeQuantum); // Pass the GUI instance
-        outputArea.setText(""); // Clear previous output
+        int timeQuantum;
+        String input = JOptionPane.showInputDialog(null, "Enter timeQuantum:", "Input", JOptionPane.PLAIN_MESSAGE);
+
+            timeQuantum = Integer.parseInt(input);
+            System.out.println("The timeQuantum is: " + timeQuantum);
+
+        RR rr = new RR(this, timeQuantum);
+        outputArea.setText("");
         rr.executeRR(readyQueue);
+
+        String averageMessage = "Average Waiting Time: " + rr.getAverageWaitingTime() + "\n" +
+                "Average Turnaround Time: " + rr.getAverageTurnAroundTime();
+        JOptionPane.showMessageDialog(null, averageMessage,  "Average", JOptionPane.INFORMATION_MESSAGE);
+        outputArea.setText("");
     }
 
     private void runPriority() {
-        Priority priority = new Priority(this); // Pass the GUI instance
-        outputArea.setText(""); // Clear previous output
+        Priority priority = new Priority(this);
         priority.executePriority(readyQueue);
+
+        String averageMessage = "Average Waiting Time: " + priority.getAverageWaitingTime() + "\n" +
+                "Average Turnaround Time: " + priority.getAverageTurnAroundTime();
+        JOptionPane.showMessageDialog(null, averageMessage,  "Average", JOptionPane.INFORMATION_MESSAGE);
+        outputArea.setText("");
     }
 
-    // Append output to the JTextArea
     public void appendOutput(String text) {
         outputArea.append(text + "\n");
     }
